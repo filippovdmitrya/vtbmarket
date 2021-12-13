@@ -35,4 +35,8 @@ public class PriceList {
             return "описание не найдено для элемента " + n;
         }
     }
+
+    public PriceListItem get(int n) {
+        return goods.get(n);
+    }
 }
