@@ -3,6 +3,11 @@ package ru.vtbmarket.services;
 public class PriceListItem {
     private final String    name;
     private final String    description;
+
+    public float getPrice() {
+        return price;
+    }
+
     private final float     price;
     private final int       balance;
 

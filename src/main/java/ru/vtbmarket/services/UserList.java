@@ -51,4 +51,10 @@ public class UserList {
         session.putBasket(i);
     }
 
+    public void makeOrder() {
+        int k = session.getBasketSize();
+        double s = session.getBasketSum();
+        notificator.notify("оформление заказа, в корзине " + k + " позиций; на сумму = " + s);
+    }
+
 }

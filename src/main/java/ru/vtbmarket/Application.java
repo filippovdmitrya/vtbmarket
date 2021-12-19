@@ -22,6 +22,9 @@ public class Application {
         log.info("положим товар в корзину");
         ctx.getBean(UserList.class).putBasket(ctx.getBean(PriceList.class).get(2),1);
 
+        log.info("оформление заказа на товар в корзине");
+        ctx.getBean(UserList.class).makeOrder();
+
         log.info("ru.vtbmarket finish");
     }
 }

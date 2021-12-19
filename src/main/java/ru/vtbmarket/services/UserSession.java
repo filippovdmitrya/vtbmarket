@@ -14,4 +14,17 @@ public class UserSession {
     public void putBasket(BasketItem i) {
         basket.add(i);
     }
+    public int getBasketSize() {
+        return basket.size();
+    }
+
+    public double getBasketSum() {
+        double s = 0.0;
+        for (BasketItem basketItem : basket) {
+            s = s + basketItem.getItemSum();
+        }
+        return s;
+    }
+
+
 }

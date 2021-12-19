@@ -8,4 +8,8 @@ public class BasketItem {
         this.goods = goods;
         this.qty = qty;
     }
+
+    public double getItemSum() {
+        return goods.getPrice() * (double) qty;
+    }
 }
