@@ -2,6 +2,7 @@ package ru.vtbmarket.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.vtbmarket.annotation.Controllable;
 import ru.vtbmarket.services.interfaces.Notificator;
 import ru.vtbmarket.services.model.BasketItem;
 import ru.vtbmarket.services.model.PriceListItem;
@@ -12,7 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-//@Scope("singleton") // by default
 public class UserList {
     private final Map<String, User> customers = new HashMap<>();
     private UserSession session;
@@ -54,10 +54,10 @@ public class UserList {
         session.putBasket(i);
     }
 
+    @Controllable
     public void makeOrder() {
         int k = session.getBasketSize();
         double s = session.getBasketSum();
         notificator.notify("оформление заказа, в корзине " + k + " позиций; на сумму = " + s);
     }
-
 }

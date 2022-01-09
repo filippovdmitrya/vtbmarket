@@ -14,16 +14,19 @@ public class Application {
         log.info("ru.vtbmarket start");
         final ConfigurableApplicationContext ctx = SpringApplication.run(Application.class);
 
-        ctx.getBean(PriceList.class).show();
+        final PriceList priceList = ctx.getBean(PriceList.class);
+        final UserList userList = ctx.getBean(UserList.class);
+
+        priceList.show();
 
         log.info("смотрим описание");
-        System.out.println(ctx.getBean(PriceList.class).showDescription(2));
+        System.out.println(priceList.showDescription(2));
 
         log.info("положим товар в корзину");
-        ctx.getBean(UserList.class).putBasket(ctx.getBean(PriceList.class).get(2),1);
+        userList.putBasket(priceList.get(2),1);
 
         log.info("оформление заказа на товар в корзине");
-        ctx.getBean(UserList.class).makeOrder();
+        userList.makeOrder();
 
         log.info("ru.vtbmarket finish");
     }
