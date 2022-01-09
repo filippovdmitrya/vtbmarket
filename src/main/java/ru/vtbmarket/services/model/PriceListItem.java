@@ -1,4 +1,4 @@
-package ru.vtbmarket.services;
+package ru.vtbmarket.services.model;
 
 public class PriceListItem {
     private final String    name;

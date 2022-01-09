@@ -1,18 +1,21 @@
 package ru.vtbmarket.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import ru.vtbmarket.services.interfaces.Notificator;
+import ru.vtbmarket.services.model.BasketItem;
+import ru.vtbmarket.services.model.PriceListItem;
+import ru.vtbmarket.services.model.User;
+import ru.vtbmarket.services.model.UserSession;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
-@Scope("singleton")
+//@Scope("singleton") // by default
 public class UserList {
     private final Map<String, User> customers = new HashMap<>();
-    private  UserSession session;
+    private UserSession session;
 
     @Autowired
     private Notificator notificator;

@@ -1,4 +1,4 @@
-package ru.vtbmarket.services;
+package ru.vtbmarket.services.model;
 
 import java.util.ArrayList;
 import java.util.List;

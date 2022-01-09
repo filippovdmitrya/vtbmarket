@@ -1,13 +1,12 @@
 package ru.vtbmarket.services;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import ru.vtbmarket.services.model.PriceListItem;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
-@Scope("singleton")
 public class PriceList {
     private final Map<Integer, PriceListItem> goods = new HashMap<>();
     private void  init() {
