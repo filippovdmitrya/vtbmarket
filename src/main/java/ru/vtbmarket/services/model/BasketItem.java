@@ -1,15 +1,15 @@
 package ru.vtbmarket.services.model;
 
 public class BasketItem {
-    private PriceListItem goods;
+    private PricelistItem goods;
     private int qty;
 
-    public BasketItem(PriceListItem goods, int qty) {
+    public BasketItem(PricelistItem goods, int qty) {
         this.goods = goods;
         this.qty = qty;
     }
 
-    public double getItemSum() {
-        return goods.getPrice() * (double) qty;
+    public int getItemSum() {
+        return goods.getPrice() * qty;
     }
 }

@@ -7,7 +7,6 @@ public class UserSession {
     private final String username;
     private List<BasketItem> basket = new ArrayList<>();
 
-
     public UserSession(String    username) {
         this.username = username;
     }
@@ -19,11 +18,11 @@ public class UserSession {
     }
 
     public double getBasketSum() {
-        double s = 0.0;
+        int s = 0;
         for (BasketItem basketItem : basket) {
             s = s + basketItem.getItemSum();
         }
-        return s;
+        return s * 0.01; // перевод из копеек в рубли
     }
 
 

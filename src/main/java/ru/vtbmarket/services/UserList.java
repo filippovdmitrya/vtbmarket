@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.vtbmarket.annotation.Controllable;
 import ru.vtbmarket.services.interfaces.Notificator;
 import ru.vtbmarket.services.model.BasketItem;
-import ru.vtbmarket.services.model.PriceListItem;
+import ru.vtbmarket.services.model.PricelistItem;
 import ru.vtbmarket.services.model.User;
 import ru.vtbmarket.services.model.UserSession;
 
@@ -48,7 +48,7 @@ public class UserList {
         return null;
     }
 
-    public void putBasket(PriceListItem goods, int qty) {
+    public void putBasket(PricelistItem goods, int qty) {
         BasketItem i = new BasketItem(goods, qty);
         notificator.notify("положили в корзину товар = " + goods.toString() + " в количестве = " + qty);
         session.putBasket(i);

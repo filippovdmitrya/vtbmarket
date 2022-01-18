@@ -1,20 +1,19 @@
 package ru.vtbmarket.services.model;
 
-public class PriceListItem {
+public class PricelistItem {
     private final String    name;
     private final String    description;
+    private final int       price; // цена в копейках!
+    private final int       balance;
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
-
-    private final float     price;
-    private final int       balance;
 
     @Override
     public String toString() {
         return  "| " + "наименование ='" + name + '\'' +
-                ", цена = " + price +
+                ", цена = " + (price * 0.01) + // перевод из копеек в рубли
                 ", остаток = " + balance + '|';
     }
 
@@ -22,7 +21,7 @@ public class PriceListItem {
         return description;
     }
 
-    public PriceListItem(String name, String description, float price, int balance) {
+    public PricelistItem(String name, String description, int price, int balance) {
         this.name = name;
         this.description = description;
         this.price = price;
