@@ -25,5 +25,7 @@ public class UserSession {
         return s * 0.01; // перевод из копеек в рубли
     }
 
-
+    public String getUsername() {
+        return username;
+    }
 }

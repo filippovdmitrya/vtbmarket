@@ -3,6 +3,7 @@ package ru.vtbmarket.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vtbmarket.annotation.Controllable;
+import ru.vtbmarket.services.interfaces.MarketUsersService;
 import ru.vtbmarket.services.interfaces.Notificator;
 import ru.vtbmarket.services.model.BasketItem;
 import ru.vtbmarket.services.model.PricelistItem;
@@ -20,6 +21,10 @@ public class UserList {
     @Autowired
     private Notificator notificator;
 
+    @Autowired
+    private MarketUsersService marketUsersService;
+
+    /*
     private void  init() {
         System.out.println("инициализация списка пользователей");
 
@@ -27,11 +32,24 @@ public class UserList {
                 "ivan@supermail.ru", "*", "user1"));
         customers.put("user2", new User(2, "Masha", "Ivanova",
                 "maria@supermail.ru", "*", "user2"));
-    }
+    } */
 
     public UserList() {
-        init();
-        this.session = userLogin("user1", "*");
+//        init();
+//        this.session = userLogin("user1", "*");
+    }
+
+    public void build(String userName) {
+        System.out.println("инициализация списка пользователей из DB");
+        reload();
+        this.session = userLogin(userName, "*");
+    }
+
+    private void reload() {
+        marketUsersService.getAll().forEach(
+                p -> customers.put(p.getUsername(), new User(p.getId(), p.getName(), p.getLastname(),
+                        p.getEmail(), "*", p.getUsername()))
+        );
     }
 
     public String getStatus() {

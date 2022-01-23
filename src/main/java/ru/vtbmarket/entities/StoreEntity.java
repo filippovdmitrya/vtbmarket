@@ -18,9 +18,6 @@ public class StoreEntity {
     @Column(name = "balance")
     private Integer balance;
 
-//    @OneToMany(mappedBy = "goods_id", targetEntity = GoodsEntity.class)
-//    private List<GoodsEntity> goods;
-
     @Version
     private int version;
 

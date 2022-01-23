@@ -3,6 +3,7 @@ package ru.vtbmarket.services;
 import org.springframework.stereotype.Service;
 import ru.vtbmarket.repository.StoreRepository;
 import ru.vtbmarket.services.interfaces.StoreService;
+import ru.vtbmarket.services.model.PricelistItem;
 
 @Service
 public class StoreServiceImpl implements StoreService {
@@ -25,5 +26,11 @@ public class StoreServiceImpl implements StoreService {
         storeRepository.findAll()
                 .forEach(p -> System.out.printf("%d \t %s \t %.2f \t %d \n",
                         p.getId(), storeRepository.getStoreGoodsName(p.getId()), p.getPrice() * 0.01, p.getBalance()));
+    }
+
+    @Override
+    public PricelistItem get(int n) {
+        return new PricelistItem("Товар 1", "Описание товара 1", 150,20, 1);
+//        return null;
     }
 }
