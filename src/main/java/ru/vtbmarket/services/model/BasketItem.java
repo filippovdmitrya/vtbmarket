@@ -12,4 +12,12 @@ public class BasketItem {
     public int getItemSum() {
         return goods.getPrice() * qty;
     }
+
+    public int getQty() {
+        return qty;
+    }
+
+    public PricelistItem getGoods() {
+        return goods;
+    }
 }

@@ -17,7 +17,7 @@ public class Application {
         final ConfigurableApplicationContext ctx = SpringApplication.run(Application.class);
 
         final UserList userList = ctx.getBean(UserList.class);
-        userList.build("user1");
+        userList.build("user2");
 
         // старая версия vtbmarket
 //        final PriceList priceList = ctx.getBean(PriceList.class);
@@ -42,19 +42,20 @@ public class Application {
 //        goodsService.print(); // all table for debug
         goodsService.printDescription(2);
 
-//        log.info("положим товар в корзину");
-//        userList.putBasket(priceList.get(2),1);
-//
-//        log.info("оформление заказа на товар в корзине");
-//        userList.makeOrder();
-        //------------------------------------------------------------------------------
-        final BasketService basketService = ctx.getBean(BasketService.class);
-        log.info("смотрим table basket из БД");
-        basketService.print();// debug output
+        log.info("положим товар в корзину");
+        userList.putBasket(storeService.get(2),1);
+        userList.putBasket(storeService.get(1),11);
 
-        final BasketListService basketListService = ctx.getBean(BasketListService.class);
-        log.info("смотрим table basket_list из БД");
-        basketListService.print();// debug output
+        log.info("оформление заказа на товар в корзине");
+        userList.makeOrder();
+        //------------------------------------------------------------------------------
+//        final BasketService basketService = ctx.getBean(BasketService.class);
+//        log.info("смотрим table basket из БД");
+//        basketService.print();// debug output
+//
+//        final BasketListService basketListService = ctx.getBean(BasketListService.class);
+//        log.info("смотрим table basket_list из БД");
+//        basketListService.print();// debug output
         //------------------------------------------------------------------------------
 
         log.info("ru.vtbmarket finish");

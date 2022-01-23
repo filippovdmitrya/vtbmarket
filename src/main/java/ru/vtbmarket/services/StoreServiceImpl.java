@@ -1,13 +1,20 @@
 package ru.vtbmarket.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.vtbmarket.entities.GoodsEntity;
+import ru.vtbmarket.entities.StoreEntity;
 import ru.vtbmarket.repository.StoreRepository;
+import ru.vtbmarket.services.interfaces.GoodsService;
 import ru.vtbmarket.services.interfaces.StoreService;
 import ru.vtbmarket.services.model.PricelistItem;
 
 @Service
 public class StoreServiceImpl implements StoreService {
     private StoreRepository storeRepository;
+
+    @Autowired
+    private GoodsService goodsService;
 
     public StoreServiceImpl(StoreRepository storeRepository) {
         this.storeRepository = storeRepository;
@@ -29,8 +36,10 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public PricelistItem get(int n) {
-        return new PricelistItem("Товар 1", "Описание товара 1", 150,20, 1);
-//        return null;
+    public PricelistItem get(int id) {
+        final StoreEntity storeEntity = storeRepository.findById(id).get();
+        final GoodsEntity goodsEntity = goodsService.get(storeEntity.getGoods_id());
+        return new PricelistItem(goodsEntity.getName(), goodsEntity.getDescription(),
+                storeEntity.getPrice(), storeEntity.getBalance(), storeEntity.getGoods_id());
     }
 }

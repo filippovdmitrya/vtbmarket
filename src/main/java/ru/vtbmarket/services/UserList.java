@@ -3,6 +3,8 @@ package ru.vtbmarket.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vtbmarket.annotation.Controllable;
+import ru.vtbmarket.services.interfaces.BasketListService;
+import ru.vtbmarket.services.interfaces.BasketService;
 import ru.vtbmarket.services.interfaces.MarketUsersService;
 import ru.vtbmarket.services.interfaces.Notificator;
 import ru.vtbmarket.services.model.BasketItem;
@@ -11,6 +13,7 @@ import ru.vtbmarket.services.model.User;
 import ru.vtbmarket.services.model.UserSession;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -23,6 +26,12 @@ public class UserList {
 
     @Autowired
     private MarketUsersService marketUsersService;
+
+    @Autowired
+    private BasketService basketService;
+
+    @Autowired
+    private BasketListService basketListService;
 
     /*
     private void  init() {
@@ -77,5 +86,14 @@ public class UserList {
         int k = session.getBasketSize();
         double s = session.getBasketSum();
         notificator.notify("оформление заказа, в корзине " + k + " позиций; на сумму = " + s);
+        notificator.notify("сохранение корзины, сессия пользователя " + session.getUsername());
+        int basket_id = basketService.create(session.getUsername());
+
+        List<BasketItem> basket = session.getBasket();
+        for (BasketItem basketItem : basket) {
+            basketListService.create(basket_id, basketItem.getGoods().getGoods_id(),
+                    basketItem.getQty(), basketItem.getGoods().getPrice());
+        }
+        notificator.notify("корзина сохранена; basket_id = " + basket_id);
     }
 }

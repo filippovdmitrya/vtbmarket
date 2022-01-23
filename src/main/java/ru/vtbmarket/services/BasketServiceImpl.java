@@ -21,7 +21,10 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    public BasketEntity create(String username) {
-        return null;
+    public int create(String username) {
+        final int k;
+        k = basketRepository.save(
+                new BasketEntity(username)).getId();
+        return k;
     }
 }

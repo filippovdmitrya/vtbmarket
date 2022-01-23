@@ -28,4 +28,8 @@ public class UserSession {
     public String getUsername() {
         return username;
     }
+
+    public List<BasketItem> getBasket(){
+        return basket;
+    }
 }

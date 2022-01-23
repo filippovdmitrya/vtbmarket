@@ -29,6 +29,6 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public GoodsEntity get(Integer id) {
-        return goodsRepository.getById(id);
+        return goodsRepository.findById(id).get();
     }
 }
