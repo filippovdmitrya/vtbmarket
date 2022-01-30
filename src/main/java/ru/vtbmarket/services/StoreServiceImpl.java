@@ -2,6 +2,9 @@ package ru.vtbmarket.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.vtbmarket.entities.GoodsEntity;
 import ru.vtbmarket.entities.StoreEntity;
 import ru.vtbmarket.repository.StoreRepository;
@@ -40,6 +43,26 @@ public class StoreServiceImpl implements StoreService {
         final StoreEntity storeEntity = storeRepository.findById(id).get();
         final GoodsEntity goodsEntity = goodsService.get(storeEntity.getGoods_id());
         return new PricelistItem(goodsEntity.getName(), goodsEntity.getDescription(),
-                storeEntity.getPrice(), storeEntity.getBalance(), storeEntity.getGoods_id());
+                storeEntity.getPrice(), storeEntity.getBalance(), storeEntity.getGoods_id(), id);
+    }
+
+    @Override
+    @Transactional(
+            propagation = Propagation.REQUIRED,
+            isolation = Isolation.DEFAULT,
+            timeout = 30,
+            readOnly = false,
+            rollbackFor = {RuntimeException.class}
+    )
+    public void update(int id, int goods_id, int price, int balance, int qty) {
+        final StoreEntity storeEntity = storeRepository.findById(id).get();
+        if (balance == storeEntity.getBalance()) {
+            storeRepository.save(
+                    new StoreEntity(id, goods_id, price, balance - qty, storeEntity.getVersion())
+            );
+        }
+        else  {
+           throw new IllegalStateException();
+        }
     }
 }

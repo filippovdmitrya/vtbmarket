@@ -13,9 +13,9 @@ public class PriceList {
     private final Map<Integer, PricelistItem> goods = new HashMap<>();
     private void  init() {
         System.out.println("инициализирую прайс лист");
-        goods.put(1, new PricelistItem("Товар 1", "Описание товара 1", 150,20, 1));
-        goods.put(2, new PricelistItem("Товар 2", "Описание товара 2", 11000,1, 2));
-        goods.put(3, new PricelistItem("Товар 3", "Описание товара 3", 1000,88, 3));
+        goods.put(1, new PricelistItem("Товар 1", "Описание товара 1", 150,20, 1, 1));
+        goods.put(2, new PricelistItem("Товар 2", "Описание товара 2", 11000,1, 2, 2));
+        goods.put(3, new PricelistItem("Товар 3", "Описание товара 3", 1000,88, 3, 3));
     }
 
     public PriceList() {

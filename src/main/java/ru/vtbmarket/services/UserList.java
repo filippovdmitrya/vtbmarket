@@ -2,11 +2,11 @@ package ru.vtbmarket.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.vtbmarket.annotation.Controllable;
-import ru.vtbmarket.services.interfaces.BasketListService;
-import ru.vtbmarket.services.interfaces.BasketService;
-import ru.vtbmarket.services.interfaces.MarketUsersService;
-import ru.vtbmarket.services.interfaces.Notificator;
+import ru.vtbmarket.services.interfaces.*;
 import ru.vtbmarket.services.model.BasketItem;
 import ru.vtbmarket.services.model.PricelistItem;
 import ru.vtbmarket.services.model.User;
@@ -32,6 +32,9 @@ public class UserList {
 
     @Autowired
     private BasketListService basketListService;
+
+    @Autowired
+    private StoreService storeService;
 
     /*
     private void  init() {
@@ -76,9 +79,15 @@ public class UserList {
     }
 
     public void putBasket(PricelistItem goods, int qty) {
-        BasketItem i = new BasketItem(goods, qty);
-        notificator.notify("положили в корзину товар = " + goods.toString() + " в количестве = " + qty);
-        session.putBasket(i);
+        if (goods.getBalance() >= qty) {
+            BasketItem i = new BasketItem(goods, qty);
+            notificator.notify("положили в корзину товар = " + goods.toString() + " в количестве = " + qty);
+            session.putBasket(i);
+        }
+        else {
+            notificator.notify("Остаток товара на складе " + goods.toString()
+                    + " недостаточен, чтобы положить в корзину количество = " + qty);
+        }
     }
 
     @Controllable
@@ -87,13 +96,34 @@ public class UserList {
         double s = session.getBasketSum();
         notificator.notify("оформление заказа, в корзине " + k + " позиций; на сумму = " + s);
         notificator.notify("сохранение корзины, сессия пользователя " + session.getUsername());
-        int basket_id = basketService.create(session.getUsername());
+        processOrder();
+    }
 
-        List<BasketItem> basket = session.getBasket();
-        for (BasketItem basketItem : basket) {
-            basketListService.create(basket_id, basketItem.getGoods().getGoods_id(),
-                    basketItem.getQty(), basketItem.getGoods().getPrice());
+    @Transactional(
+            propagation = Propagation.REQUIRES_NEW,
+            isolation = Isolation.DEFAULT,
+            timeout = 30,
+            readOnly = false,
+            rollbackFor = {RuntimeException.class}
+    )
+    public void processOrder(){
+        if (session.getBasket().size() > 0) {
+            int basket_id = basketService.create(session.getUsername());
+
+            List<BasketItem> basket = session.getBasket();
+            for (BasketItem basketItem : basket) {
+                storeService.update(basketItem.getGoods().getStore_id(),
+                        basketItem.getGoods().getGoods_id(),
+                        basketItem.getGoods().getPrice(),
+                        basketItem.getGoods().getBalance(),
+                        basketItem.getQty());
+                basketListService.create(basket_id, basketItem.getGoods().getGoods_id(),
+                        basketItem.getQty(), basketItem.getGoods().getPrice());
+            }
+            notificator.notify("корзина сохранена; basket_id = " + basket_id);
         }
-        notificator.notify("корзина сохранена; basket_id = " + basket_id);
+        else {
+            notificator.notify("Корзина пуста; пользователь = " + session.getUsername());
+        }
     }
 }

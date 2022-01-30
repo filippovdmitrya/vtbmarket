@@ -31,6 +31,14 @@ public class StoreEntity {
         this.balance = balance;
     }
 
+    public StoreEntity(Integer id, Integer goods_id, Integer price, Integer balance, int version) {
+        this.id = id;
+        this.goods_id = goods_id;
+        this.price = price;
+        this.balance = balance;
+        this.version = version;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -61,6 +69,10 @@ public class StoreEntity {
 
     public void setBalance(Integer balance) {
         this.balance = balance;
+    }
+
+    public int getVersion() {
+        return version;
     }
 
     @Override

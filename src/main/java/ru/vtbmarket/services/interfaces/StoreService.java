@@ -6,4 +6,5 @@ public interface StoreService {
     void print();
     void printPricelist();
     PricelistItem get(int id);
+    void update(int id,int goods_id, int price, int balance, int qty);
 }
